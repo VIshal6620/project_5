@@ -97,7 +97,7 @@ class LoanCtl(BaseCtl):
             json_request = json.loads(request.body)
             res = {"result": {}, "success": True}
             if (json_request):
-                params["name"] = json_request.get("name", None)
+                params["loanAmount"] = json_request.get("loanAmount", None)
                 params["pageNo"] = json_request.get("pageNo", None)
             records = self.get_service().search(params)
             if records and records.get("data"):
