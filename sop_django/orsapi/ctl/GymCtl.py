@@ -2,58 +2,74 @@ import json
 from django.http import JsonResponse
 from ..ctl.BaseCtl import BaseCtl
 from ..ctl.ErrorCtl import ErrorCtl
-from ..models import Loan
+from ..models import Gym
+from ..service.GymService import GymService
 from ..service.LoanService import LoanService
 from ..utility.DataValidator import DataValidator
 
 
-class LoanCtl(BaseCtl):
+class GymCtl(BaseCtl):
 
     def request_to_form(self, requestForm):
         self.form['id'] = requestForm.get('id')
-        self.form['loanAmount'] = requestForm.get('loanAmount')
-        self.form['interestRate'] = requestForm.get('interestRate')
-        self.form['issueDate'] = requestForm.get('issueDate')
+        self.form['memberName'] = requestForm.get('memberName')
+        self.form['membershipType'] = requestForm.get('membershipType')
+        self.form['startDate'] = requestForm.get('startDate')
+        self.form['endDate'] = requestForm.get('endDate')
 
     def form_to_model(self, obj):
         pk = int(self.form['id'])
         if pk > 0:
             obj.id = pk
-        obj.loanAmount = self.form['loanAmount']
-        obj.interestRate = self.form['interestRate']
-        obj.issueDate = self.form['issueDate']
+        obj.memberName = self.form['memberName']
+        obj.membershipType = self.form['membershipType']
+        obj.startDate = self.form['startDate']
+        obj.endDate = self.form['endDate']
         return obj
 
     def model_to_form(self, obj):
         if obj == None:
             return
         self.form['id'] = obj.id
-        self.form['loanAmount'] = obj.loanAmount
-        self.form['interestRate'] = obj.interestRate
-        self.form['issueDate'] = obj.issueDate
+        self.form['memberName'] = obj.memberName
+        self.form['membershipType'] = obj.membershipType
+        self.form['startDate'] = obj.startDate
+        self.form['endDate'] = obj.endDate
 
     def input_validation(self):
         super().input_validation()
         inputError = self.form['inputError']
 
-        if (DataValidator.isNull(self.form['loanAmount'])):
-            inputError['loanAmount'] = "loanAmount can not be null"
+        if (DataValidator.isNull(self.form['memberName'])):
+            inputError['memberName'] = "memberName can not be null"
             self.form['error'] = True
         else:
-            if (DataValidator.isinteger(self.form['loanAmount'])):
-                inputError['loanAmount'] = "loanAmount contains only number"
+            if (DataValidator.isalphacehck(self.form['memberName'])):
+                inputError['memberName'] = "memberName contains only number"
                 self.form['error'] = True
 
-        if (DataValidator.isNull(self.form['interestRate'])):
-            inputError['interestRate'] = "Interest Rate Description can not be null"
-            self.form['error'] = True
-
-        if (DataValidator.isNull(self.form['issueDate'])):
-            inputError['issueDate'] = "DOB can not be null"
+        if (DataValidator.isNull(self.form['membershipType'])):
+            inputError['membershipType'] = "membershipType can not be null"
             self.form['error'] = True
         else:
-            if (DataValidator.isDate(self.form['issueDate'])):
-                inputError['issueDate'] = "Incorrect date format, should be YYYY-MM-DD"
+            if (DataValidator.isalphacehck(self.form['membershipType'])):
+                inputError['membershipType'] = "membershipType contains only number"
+                self.form['error'] = True
+
+        if (DataValidator.isNull(self.form['startDate'])):
+            inputError['startDate'] = "DOB can not be null"
+            self.form['error'] = True
+        else:
+            if (DataValidator.isDate(self.form['startDate'])):
+                inputError['startDate'] = "Incorrect date format, should be YYYY-MM-DD"
+                self.form['error'] = True
+
+        if (DataValidator.isNull(self.form['endDate'])):
+            inputError['endDate'] = "DOB can not be null"
+            self.form['error'] = True
+        else:
+            if (DataValidator.isDate(self.form['endDate'])):
+                inputError['endDate'] = "Incorrect date format, should be YYYY-MM-DD"
                 self.form['error'] = True
 
         return self.form['error']
@@ -72,7 +88,7 @@ class LoanCtl(BaseCtl):
                 return JsonResponse(res)
             # Check unique elements
             pk = int(self.form['id'])
-            uniqueAttrib = {"loanAmount": self.form['loanAmount']}
+            uniqueAttrib = {"memberName": self.form['memberName']}
             duplicateErrors = self.get_service().mduplicateFields(uniqueAttrib, pk)
             size = len(duplicateErrors)
             if (size > 0):
@@ -81,10 +97,10 @@ class LoanCtl(BaseCtl):
                 return JsonResponse(res)
 
             # Add/ Update the user
-            loan = self.form_to_model(Loan())
-            self.get_service().save(loan)
+            gym = self.form_to_model(Gym())
+            self.get_service().save(gym)
             res["success"] = True
-            res["result"]["data"] = loan.id
+            res["result"]["data"] = gym.id
             res["result"]["message"] = "Loan added successfully"
             return JsonResponse(res)
 
@@ -97,13 +113,13 @@ class LoanCtl(BaseCtl):
             json_request = json.loads(request.body)
             res = {"result": {}, "success": True}
             if (json_request):
-                params["loanAmount"] = json_request.get("loanAmount", None)
+                params["memberName"] = json_request.get("memberName", None)
                 params["pageNo"] = json_request.get("pageNo", None)
             records = self.get_service().search(params)
             if records and records.get("data"):
                 res["success"] = True
                 res["result"]["data"] = records["data"]
-                res["result"]["lastId"] = Loan.objects.last().id
+                res["result"]["lastId"] = Gym.objects.last().id
             else:
                 res["success"] = False
                 res["result"]["message"] = "No record found"
@@ -144,14 +160,14 @@ class LoanCtl(BaseCtl):
     def preload(self, request, params={}):
         try:
             res = {"result": {}, "success": True}
-            loan_list = LoanService().preload()
+            gym_list = GymService().preload()
             preloadList = []
-            for x in loan_list:
+            for x in gym_list:
                 preloadList.append(x.to_json())
-            res["result"]["loanList"] = preloadList
+            res["result"]["gymList"] = preloadList
             return JsonResponse(res)
         except Exception as ex:
             return ErrorCtl.handle(ex)
 
     def get_service(self):
-        return LoanService()
+        return GymService()

@@ -25,6 +25,8 @@ import { TimetableListComponent } from './timetable/timetable-list.component';
 import { ChangepasswordComponent } from './user/changepassword.component';
 import { ForgetpasswordComponent } from './login/forgetpassword.component';
 import { LoanListComponent } from './loan/loan-list.component';
+import { GymComponent } from './gym/gym.component';
+import { GymListComponent } from './gym/gym-list.component';
 
 
 
@@ -166,6 +168,18 @@ const routes: Routes = [
 {
   path: 'loan/:id',
   component: LoanComponent
+},
+{
+  path: 'gym',
+  component: GymComponent
+},
+{
+  path:'gymlist',
+  component: GymListComponent
+},
+{
+  path:'gym/id',
+  component: GymComponent
 },
   {
     path: 'changepassword',

@@ -1,13 +1,11 @@
 import json
-
 from django.http import JsonResponse
-from django.shortcuts import render
-from ..utility.DataValidator import DataValidator
-from .BaseCtl import BaseCtl
-from .ErrorCtl import ErrorCtl
+from ..ctl.BaseCtl import BaseCtl
+from ..ctl.ErrorCtl import ErrorCtl
 from ..models import Subject
-from ..service.SubjectService import SubjectService
 from ..service.CourseService import CourseService
+from ..service.SubjectService import SubjectService
+from ..utility.DataValidator import DataValidator
 
 
 class SubjectCtl(BaseCtl):

@@ -17,6 +17,7 @@ from .ctl.ChangePasswordCtl import ChangePasswordCtl
 from .ctl.ForgetPasswordCtl import ForgetPasswordCtl
 from .ctl.ErrorCtl import ErrorCtl
 from .ctl.LoanCtl import LoanCtl
+from .ctl.GymCtl import GymCtl
 
 @csrf_exempt
 def action(request, page, action="get", id=0, pageNo=1):

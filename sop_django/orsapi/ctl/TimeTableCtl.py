@@ -1,14 +1,12 @@
 import json
-from datetime import datetime
 from django.http import JsonResponse
-from django.shortcuts import render
-from ..utility.DataValidator import DataValidator
-from .BaseCtl import BaseCtl
-from .ErrorCtl import ErrorCtl
+from ..ctl.BaseCtl import BaseCtl
+from ..ctl.ErrorCtl import ErrorCtl
 from ..models import TimeTable
 from ..service.CourseService import CourseService
 from ..service.SubjectService import SubjectService
 from ..service.TimeTableService import TimeTableService
+from ..utility.DataValidator import DataValidator
 
 
 class TimeTableCtl(BaseCtl):

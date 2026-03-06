@@ -36,6 +36,8 @@ import { AuthServiceService } from './auth-service.service';
 import { ForgetpasswordComponent } from './login/forgetpassword.component';
 import { LoanComponent } from './loan/loan.component';
 import { LoanListComponent } from './loan/loan-list.component';
+import { GymComponent } from './gym/gym.component';
+import { GymListComponent } from './gym/gym-list.component';
 
 
 @NgModule({
@@ -67,7 +69,9 @@ import { LoanListComponent } from './loan/loan-list.component';
     ChangepasswordComponent,
     ForgetpasswordComponent,
     LoanComponent,
-    LoanListComponent
+    LoanListComponent,
+    GymComponent,
+    GymListComponent
   
     
   ],

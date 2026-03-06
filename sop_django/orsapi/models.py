@@ -247,6 +247,22 @@ class Loan(models.Model):
         db_table = 'sos_loan'
 
 
+class Gym(models.Model):
+    memberName = models.CharField(max_length=50)
+    membershipType = models.CharField(max_length=30)
+    startDate = models.DateField(max_length=20)
+    endDate = models.DateField(max_length=20)
 
+    def to_json(self):
+        data = {
+            'id': self.id,
+            'memberName': self.memberName,
+            'membershipType': self.membershipType,
+            'startDate': self.startDate,
+            'endDate': self.endDate,
+        }
+        return data
 
+    class Meta:
+        db_table = 'sos_gym'
 

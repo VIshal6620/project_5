@@ -1,0 +1,48 @@
+<app-navbar></app-navbar>
+
+<div align="center">
+    <h1 *ngIf="!form.data.id" align="center" style="margin-bottom: 5px; color: navy">Add Gym</h1>
+    <h1 *ngIf="form.data.id>0" align="center" style="margin-bottom: 5px; color: navy">Update Gym</h1>
+
+    <div style="height: 20px; margin-bottom: 10px; text-align: center;">
+        <h3 style="margin: 0; color: green;" *ngIf="!form.error && form.message">{{ form.message }}</h3>
+        <h3 style="margin: 0; color: red;" *ngIf="form.error && form.message">{{ form.message }}</h3>
+    </div>
+
+    <table>
+        <tr>
+            <th align="left">MemberName<span style="color: red">*</span></th>
+            <td><input type="text" name="memberName" [(ngModel)]="form.data.memberName" placeholder="Enter memberName"></td>
+            <td style="position: fixed; color: red;">{{form.inputerror.memberName}}</td>
+        </tr>
+
+        <tr>
+            <th align="left">MembershipType<span style="color: red">*</span></th>
+            <td><input type="text" name="membershipType" [(ngModel)]="form.data.membershipType" placeholder="Enter membershipType"></td>
+            <td style="position: fixed; color: red;">{{form.inputerror.membershipType}}</td>
+        </tr>
+
+        <tr>
+            <th align="left">StartDate<span style="color: red">*</span></th>
+            <td><input type="date" name="startDate" [(ngModel)]="form.data.startDate" placeholder="Enter startDate"></td>
+            <td style="position: fixed; color: red;">{{form.inputerror.startDate}}</td>
+        </tr>
+
+        <tr>
+            <th align="left">EndDate<span style="color: red">*</span></th>
+            <td><input type="date" name="endDate" [(ngModel)]="form.data.endDate" placeholder="Enter endDate"></td>
+            <td style="position: fixed; color: red;">{{form.inputerror.endDate}}</td>
+        </tr>
+
+        <tr></tr>
+
+        <tr>
+            <th></th>
+            <td align="left" colspan="2">
+                <button (click)="submit()">save</button> &nbsp;
+            </td>
+        </tr>
+    </table>
+</div>
+
+<app-footer></app-footer>
